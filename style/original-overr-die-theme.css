@@ -1,0 +1,29 @@
+/* HOME > WHAT TO EXPECT > ALIGN ICONS WITH BODY TEXT */
+@media screen and (min-width: 768px){
+    .revv-what ul li {
+        align-items: flex-start;
+    }
+    .revv-what ul li img {
+        top: 5px;
+        position: relative;
+    }
+    }
+    
+    /* la and member banners */
+    .la-banner-row{
+        min-height: 500px;
+        background: url('https://higherlogicdownload.s3.amazonaws.com/PGP/9eb94079-9751-49a5-899d-ae978c8ea44f/UploadedImages/Images/Learning-Advisor-banner.jpg');
+        background-size: 100%
+    }
+    .mbr-banner-row{
+        min-height: 500px;
+        background: url('https://higherlogicdownload.s3.amazonaws.com/PGP/9eb94079-9751-49a5-899d-ae978c8ea44f/UploadedImages/Images/Member-banner.jpg');
+        background-size: 100%
+    }
+    
+    /* LEARNING UNDERLINE MOBILE */
+    @media screen and (max-width: 767px){
+        .revv-podcasts h2:after{
+            left: 25%;
+        }
+    }
