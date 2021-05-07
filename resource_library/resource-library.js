@@ -1,47 +1,37 @@
-$(function() {
-	$('.section2 div[id*="DocumentPanel"]')
-		.parent()
-		.prepend('<div class="dropdown-group"><div class="HtmlContent"></div></div>');
+var filterText = [],
+	gridItems = [];
 
+$(function() {
+	
+	//handle filtering
 	$('.library-list').each(function() {
 		var self = $(this),
 			tags = $(self).find('a.label-search-tag').toArray();
 
-		var entryAttachementList = $(self).find('.libListReptEntAttchLble');
-		$(entryAttachementList).parent().addClass('attachment-wrap');
-
 		$(self).addClass('iso');
 
+		// handle tag info
 		if (tags.length) {
 			for (var i = 0; i < tags.length; i++) {
 				var tag = $(tags[i]).attr('data-tag').toLowerCase();
-                tag = tag.replace(/\s+/g, '-');
-                tag = tag.replace(/,/g, '');
-                tag = tag.replace(/[{()}]/g, '');
-                tag = tag.replace(/&/g, '');
-                tag = tag.replace(/\//g, '');
-                console.log(tag);
-                $(self).addClass(tag);
+				tag = tag.replace(/\s+/g, '-');
+				tag = tag.replace(/,/g, '');
+				tag = tag.replace(/[{()}]/g, '');
+				tag = tag.replace(/&/g, '');
+				tag = tag.replace(/\//g, '-');
+				// console.log(tag);
+				$(self).addClass(tag);
 			}
 		}
 
+		//check for pinned entry
 		var pin = $(self).find('h3 span');
 
 		if ($(pin).hasClass('glyphicon-pushpin')) {
 			$(self).prepend('<div class="featured-resource"><i class="fa fa-star"></i>Featured</div>');
 		}
 
-		var tagsContainer = $(self).find('.tags-container');
-
-		$(tagsContainer).appendTo(self);
-
-		$(tagsContainer)
-			.contents()
-			.filter(function() {
-				return this.nodeType === 3;
-			})
-			.remove();
-
+		// create a view resource button
 		var urlHref = $(self).find('h3 a').attr('href');
 		var rating = $(self).find('div[id*="likeRatingContainer"]');
 
@@ -49,12 +39,22 @@ $(function() {
 			$(
 				'<div class="view-resource"><a href="' +
 					urlHref +
-					'" target="_blank" ">View Resource</a><i class="fa fa-arrow-right"></i></div>'
+					'" target="_blank" ">View Resource<i class="fa fa-arrow-right"></i></a></div>'
 			).appendTo(self);
 		}
 
 		$(rating).appendTo($(self).find('.view-resource'));
+
+		var entryAttachementList = $(self).find('.libListReptEntAttchLble');
+		$(entryAttachementList).parent().addClass('attachment-wrap');
+
+		var tagsContainer = $(self).find('.tags-container');
+		$(tagsContainer).appendTo(self);
+		
 	});
+
+	// handle filtering
+	$('.section2 div[id*="DocumentPanel"]').prepend('<div class="dropdown-group"><div class="HtmlContent"></div></div>');
 
 	makinFilters();
 
@@ -168,6 +168,8 @@ $(function() {
 		}
 		$(selector).removeClass('open');
 	});
+
+	handleSlick();
 });
 
 function updateSelection(val, klass, filters) {
@@ -180,7 +182,7 @@ function updateSelection(val, klass, filters) {
 	});
 
 	if (klass.indexOf('-') > -1) {
-		klass = klass.substring(0, klass.indexOf('-'));
+		klass = klass.replace(/-/g, '');
 	}
 
 	filters[klass] = localFilters;
@@ -188,20 +190,41 @@ function updateSelection(val, klass, filters) {
 
 function clearFilters() {
 	// remove filter button
-	$('.selected-filters h4').remove();
 	var selectors = $('.checkbox-filter input');
 
 	// remove active/checked status from filter checkboxes
 	$(selectors).each(function() {
 		var selector = $(this);
 		$(selector).removeClass('active');
-		selector.checked = false;
+		selector.prop('checked', false);
 		$(selector).parent().removeClass('is-active');
 	});
 
+	// remove content from filter array
+
+	$('.filter-button-group').each(function() {
+		var self = $(this),
+			klass = $(self).attr('class').split(' ')[0];
+
+		w['arr_' + klass].splice(0, w['arr_' + klass].length);
+
+		for (var i = 0; i < filterText.length; i++) {
+			var currText = filterText[i],
+				currTextClass = currText.categoryClass;
+
+			if (currTextClass == klass) {
+				classConversion = currText.categoryName;
+			}
+		}
+
+		var filterLabelClass = $(self).attr('class').split(" ")[0].replace(/-/g, ' ');;
+		$($(self).find('.filter-label')).text(filterLabelClass);
+
+	});
+
 	// show all items in the grid and reset filter dropdowns
-	$('.grid div[id*="ListViewContent"]').isotope({ filter: '*' });
-	$('.filter-label').text('Select filter options');
+	$('.filtered-library div[id*="ListViewContent"]').isotope({ filter: '*' });
+	// $('.filter-label').text('Select filter options');
 	$('.filter-content').removeClass('has-selection');
 }
 
@@ -274,9 +297,12 @@ function makinFilters() {
 	categoryList.forEach(function(category) {
 		var categoryTypeClassConversion = category.categoryType;
 		categoryTypeClassConversion = categoryTypeClassConversion.replace(/\s+/g, '-').toLowerCase();
+		categoryTypeClassConversion = categoryTypeClassConversion.replace(/\//g, '-').toLowerCase();
+
 
 		var categoryTagClassConversion = category.tag;
 		categoryTagClassConversion = categoryTagClassConversion.replace(/\s+/g, '-').toLowerCase();
+		categoryTagClassConversion = categoryTagClassConversion.replace(/\//g, '-').toLowerCase();
 
 		if (
 			$('.dropdown-group .HtmlContent > div.' + categoryTypeClassConversion + '.filter-button-group').length === 0
@@ -365,4 +391,37 @@ function makinFilters() {
 	$('.dropdown-group .HtmlContent').append('<a class="clear-filters" onclick="clearFilters();">Clear Filters</a>');
 
 	$('.clear-filters, .apply-filters').wrapAll('<div class="filter-buttons" />');
+}
+
+function handleSlick() {
+	$('.card-slide').each(function() {
+        var self = $(this);
+
+		var anchor = $(self).find('a');
+		var href = $(self).find('a').attr('href');
+		var anchorText = $(self).find('a').text();
+
+		$(anchor).replaceWith('<span>' + anchorText + '</span>');
+		$(self).wrapInner('<a href="' + href + '"></a>');
+
+        $(self).find('.HtmlContent').wrapInner('<div class="text-container" />');
+        (self).find('.HtmlContent').prepend('<div class="img-container" />');
+        (self).find('.HtmlContent img').hide();
+
+        handleBgImage($(self), $(self).find('.img-container'));
+	});
+
+    // slider
+
+    $('.card-slide').wrapAll('<div class="card-slider slider-for slick-dotted" />');
+    $('.card-slider.slider-for').slick({
+        dots: false,
+        arrows: true,
+        infinite: true,
+        autoplay: false,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        nextArrow: '<button type="button" class="slick-arrow next-arrow"><i class="fas fa-arrow-right"></i></button',
+        prevArrow: '<button type="button" class="slick-arrow prev-arrow"><i class="fas fa-arrow-left"></i></button'
+    });
 }
