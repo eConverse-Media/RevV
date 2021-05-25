@@ -19,13 +19,19 @@ $(function () {
 		$('#PageTitleH1').addClass('header-text')
 	}
 
-	handleBgImage($('.interior-header-img'), $('#PageTitleH1'));
-
+	
 	handleTopTiles();
 	handleForYouTiles();
 	handleSiteFrame();
 	handleByLines();
 	handleCLP();
+
+	// page title background image for non-community pages
+	if ($('#PageTitleH1').parent().hasClass('community-home-title-wrapper')) {
+		return;
+	} else {
+		handleBgImage($('.interior-header-img'), $('#PageTitleH1'));
+	}
 });
 
 function handleTopTiles() {

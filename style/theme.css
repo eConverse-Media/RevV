@@ -389,7 +389,7 @@ ul.navbar-nav li a .caret::before {
 .HLLandingControl a[id*="imgProfPic"],
 .GroupMember a,
 div[id*="AuthorImage"] a[id*="ProfileImage"],
-#MessageListContainer .col-sm-2 .form-group a,
+#MessageListContainer .col-sm-2 .form-group div[id*="pnlProfileImage"] a,
 .HL-contact-suggestions .row.title-row>.col-sm-2.col-md-2 a,
 .text-muted-h2 div[id*="pnlImage"]>a,
 div[id*="threadNav"] .list-group-item-image,
@@ -457,7 +457,7 @@ div[id*="threadNav"] .list-group-item-image,
 .HLLandingControl a[id*="imgProfPic"] img,
 .GroupMember img,
 div[id*="AuthorImage"] a[id*="ProfileImage"] img,
-#MessageListContainer .col-sm-2 .form-group a img,
+#MessageListContainer .col-sm-2 .form-group div[id*="pnlProfileImage"] a img,
 .HL-contact-suggestions .row.title-row>.col-sm-2.col-md-2 a img,
 .text-muted-h2 div[id*="pnlImage"]>a>img,
 div[id*="threadNav"] .list-group-item-image img,
@@ -511,7 +511,7 @@ div[id*="threadNav"] .list-group-item-image img,
     height: auto;
 }
 
-#MessageListContainer .col-sm-2 .form-group a {
+#MessageListContainer .col-sm-2 .form-group div[id*="pnlProfileImage"] a {
     width: 90px;
     height: 90px;
     margin: 0 auto;
@@ -527,7 +527,7 @@ div[id*="threadNav"] .list-group-item-image img,
     background-color: transparent;
 }
 
-#MessageListContainer .col-sm-2 .form-group a img {
+#MessageListContainer .col-sm-2 .form-group div[id*="pnlProfileImage"] a img {
     width: 90px;
 }
 
@@ -4938,6 +4938,9 @@ div[id*="UpdatePanel"] .panel.panel-default.panel-member {
     height: 100%;
     width: 100%;
     z-index: -1;
+}
+.community-home-title-wrapper #PageTitleH1::after {
+    display: none;
 }
 
 .header-text p {
