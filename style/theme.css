@@ -1485,7 +1485,7 @@ a[id*="LinkToCalendar"]:focus,
 }
 
 .tabbed-content .SearchResults.HLLandingControl ul li .title-row div[id*="pnlDescription"],
-.community-home .HLLandingControl ul li p {
+.community-home .has-img .HLLandingControl ul li p {
     padding-left: 60px;
     font-size: 14px;
     line-height: 20px;
