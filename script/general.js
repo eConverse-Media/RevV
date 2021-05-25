@@ -1,10 +1,10 @@
-$(function() {
-	setTimeout(function() {
+$(function () {
+	setTimeout(function () {
 		var headerHeight = $('#MPOuterHeader').css('height');
 		$('#MPOuter').css('padding-top', headerHeight);
 	}, 500);
 
-	$('.HLLandingControl.HLEventList ul li').each(function() {
+	$('.HLLandingControl.HLEventList ul li').each(function () {
 		var self = $(this),
 			month = $(self).find('.date-block .calendar-month span').text();
 
@@ -16,10 +16,10 @@ $(function() {
 
 	if (headerText.length) {
 		$(headerText).appendTo('#PageTitleH1');
-        $('#PageTitleH1').addClass('header-text')
+		$('#PageTitleH1').addClass('header-text')
 	}
 
-    handleBgImage($('.interior-header-img'), $('#PageTitleH1'));
+	handleBgImage($('.interior-header-img'), $('#PageTitleH1'));
 
 	handleTopTiles();
 	handleForYouTiles();
@@ -31,7 +31,7 @@ $(function() {
 function handleTopTiles() {
 	$('.top-tile').wrapAll('<div class="top-tile-wrapper"/>');
 
-	$('.top-tile').each(function() {
+	$('.top-tile').each(function () {
 		var anchor = $(this).find('a');
 		var anchorHref = $(anchor).attr('href');
 		$(this).wrap('<a href="' + anchorHref + '"></a>');
@@ -41,7 +41,7 @@ function handleTopTiles() {
 }
 
 function handleForYouTiles() {
-	$('.for-you-tile.byline').each(function() {
+	$('.for-you-tile.byline').each(function () {
 		var img = $(this).find('img');
 		$(img).wrapAll('<div class="byline-wrap" />');
 
@@ -64,7 +64,7 @@ function handleForYouTiles() {
 		$(readmorebutton).parent().unwrap();
 	});
 
-	$('.for-you-tile.advisor').each(function() {
+	$('.for-you-tile.advisor').each(function () {
 		var img = $(this).find('img');
 
 		$(img).unwrap();
@@ -90,7 +90,7 @@ function handleSiteFrame() {
 }
 
 function handleByLines() {
-	$('.home .tabs .SearchResults ul li, .community-home .HLLandingControl ul li').each(function() {
+	$('.home .tabs .SearchResults ul li, .community-home .HLLandingControl ul li').each(function () {
 		var self = $(this);
 		var contentTags = $(self).find('div[id*="pnlTags"]');
 		var byline = $(self).find('.ByLine');
@@ -112,7 +112,7 @@ function handleByLines() {
 
 	$(
 		'.interior div:not(.featured):not(.filtered-grants) > div > .SearchResults.HLLandingControl ul li'
-	).each(function() {
+	).each(function () {
 		var self = $(this);
 		var contentTags = $(self).find('div[id*="pnlTags"]');
 
@@ -127,7 +127,7 @@ function handleByLines() {
 		$(contentTags).appendTo(self);
 	});
 
-	$('.latest-activity .HLDiscussions ul li').each(function() {
+	$('.latest-activity .HLDiscussions ul li').each(function () {
 		var byline = $(this).find('.ByLine');
 		var contentRow = $(this).find('> .row.content-row');
 		var profileImg = $(this).find('div[id*="DiscussionList_Picture"]');
